@@ -1,30 +1,23 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import Posts from './components/Posts.vue';
+
+let vip = "jantizio"
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="flex flex-row p-8 items-center justify-stretch">
+    <div class="basis-1/3">
+      <h1>user</h1>
+    </div>
+    <div class="basis-1/3">
+      <h1 class="text-center font-bold text-2xl">{{vip}}</h1>
+      <hr>
+      <Posts vip="vip"/>
+    </div>
+    <div class="basis-1/3">
+      <h1>info</h1>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</template>
