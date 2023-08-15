@@ -13,7 +13,7 @@ console.log(await posts.json())
 
 <template>
 <!--Squeals di {{ vip }}:-->
-  <div class="">
+  <div class="p-2 space-y-2">
     <Post/>
     <Post/>
     <Post/>
