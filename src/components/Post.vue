@@ -1,17 +1,20 @@
 <script setup lang="ts">
+
 /*
 import { squealSchema_t, squealSchema } from '../schema/squealForm';
 
 defineProps<{ squeal: squealSchema_t}>()
 */
+//import SquealViewes from './SquealViewes.vue'
 import info from '../info.json'
-//TODO usare tailwindcss
 let receiver = ["koko","literal"].join(', ')
 let body = "kjak cicci sadsa"
 let upvotes = 5
 let downvotes = 20
 let views = 100
 let data : Date = new Date(Date.now())
+
+let viewsMoladOpened = false
 
 async function up() {
   const form = {
@@ -26,7 +29,11 @@ async function up() {
 
 }
 
-async function views_reations() {}
+async function views_reations() { //TODO. `e` serve solo a far complilare
+  let e = viewsMoladOpened
+  viewsMoladOpened = true
+  return e
+}
 
 async function down() {}
 
@@ -53,6 +60,9 @@ async function down() {}
     </div>
   </div>
 
+  <!--Teleport to="body">
+    <SquealViewes/>
+  </Teleport-->
 </template>
 
 <style scoped>

@@ -6,6 +6,9 @@ let image = "https://picsum.photos/200"
 <template>
   <div class="flex flex-col items-center justify-between p-4">
     <img :src="image" alt="" class="rounded-md">
-    <p>blalal</p>
+    <div>
+      <p>blalal</p>
+    </div>
+    
   </div>
 </template>

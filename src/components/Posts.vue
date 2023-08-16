@@ -1,6 +1,7 @@
 
 <script setup lang="ts">
 import Post from './Post.vue';
+import SquealViewes from './SquealViewes.vue';
 
 defineProps<{ vip: string }>()
 /*
@@ -19,11 +20,6 @@ console.log(await posts.json())
     <Post/>
     <Post/>
   </div>
+  <SquealViewes/>
 
 </template>
-
-<style scoped>
-.read-the-docs {
-  color: #888;
-}
-</style>

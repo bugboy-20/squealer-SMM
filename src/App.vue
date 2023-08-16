@@ -8,7 +8,7 @@ let vip = "jantizio"
 </script>
 
 <template>
-  <div class="flex flex-row items-center justify-stretch">
+  <div class="flex flex-row items-center justify-stretch ">
     <div class="basis-1/4">
       <VipInfo/>
     </div>
