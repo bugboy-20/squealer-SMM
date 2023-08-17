@@ -28,10 +28,10 @@ function icon(status : string) {
 <template>
   <Teleport to="body">
   <div class="absolute left-[40vw] top-[40vh] self-center z-50 rounded border-2 border-slate-50 shadow-md bg-slate-50">
-    <div class="flex flex-col p-2">
-      <div class="self-end hover:bg-slate-200 px-1 rounded">X</div>
+    <div class="flex flex-col ">
+      <button class="self-end hover:bg-slate-200 px-1 rounded">X</button>
       <template v-for="vs in viewsState">
-          <div class="flex flex-row justify-between gap-2">
+          <div class="flex flex-row justify-between gap-2 ">
             <div>{{ vs.name }}</div> <div>{{ icon(vs.status) }}</div>
           </div>
           <hr>

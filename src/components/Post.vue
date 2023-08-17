@@ -12,8 +12,7 @@ let body = "kjak cicci sadsa"
 let upvotes = 5
 let downvotes = 20
 let views = 100
-let data : Date = new Date(Date.now())
-
+let data : Date = new Date(Date.now()-534)
 let viewsMoladOpened = false
 
 async function up() {
@@ -24,6 +23,7 @@ async function up() {
     method: "PATCH",
     body: JSON.stringify(form)
   })
+  
 
   console.log(JSON.stringify(resp))
 
@@ -37,6 +37,7 @@ async function views_reations() { //TODO. `e` serve solo a far complilare
 
 async function down() {}
 
+//TODO visualizzare le risposte
 </script>
 
 <template>
@@ -51,12 +52,12 @@ async function down() {}
     </p>
     <div class="flex flex-row justify-between items-center">
       <div class="flex flex-row justify-items-center gap-2 p-2">
-        <p class="button text-red-500" @click="up()"> {{ upvotes }} </p>
-        <p class="button " @click="views_reations()"> {{ views }} </p>
-        <p class="button text-blue-800" @click="down()"> {{ downvotes }} </p>
+        <button class="button text-red-500" @click="up()"> {{ upvotes }} </button>
+        <button class="button " @click="views_reations()"> {{ views }} </button>
+        <button class="button text-blue-800" @click="down()"> {{ downvotes }} </button>
       </div>
 
-      <p class="justify-self-end p-1 content-center"> {{data.getDate()}}</p>
+      <p class="justify-self-end p-1 content-center"> {{data}}</p>
     </div>
   </div>
 
