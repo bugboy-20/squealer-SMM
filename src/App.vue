@@ -9,15 +9,15 @@ let vip = "jantizio"
 
 <template>
   <div class="flex flex-row justify-stretch ">
-    <div class="basis-1/4">
+    <div class="basis-1/4 h-screen overflow-hidden">
       <VipInfo/>
     </div>
-    <div class="basis-1/2 ">
+    <div class="basis-1/2 h-screen overflow-hidden ">
       <h1 class="text-center font-bold text-2xl p-4">{{vip}}</h1>
       <hr>
       <Posts vip="vip"/>
     </div>
-    <div class="basis-1/4">
+    <div class="basis-1/4 h-screen overflow-hidden">
       <NewPost/>
     </div>
   </div>

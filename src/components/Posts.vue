@@ -28,7 +28,17 @@ console.log(await posts.json())
       <option value="controversy">Controverso</option>
       <option value="mediocre">Mediocre</option>
     </select>
-    <div class="p-2 space-y-2 overflow-auto inset-0 bottom-0">
+    <div class="p-2 space-y-2 overflow-auto h-screen pb-40 ">
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
+      <Post/>
       <Post/>
       <Post/>
       <Post/>
