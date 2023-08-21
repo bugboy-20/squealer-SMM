@@ -48,7 +48,7 @@ async function down() {}
     </p>
     <hr>
     <p class="p-2">
-      {{ body }}
+      {{ body }} <!-- maybe a MessageBody component?-->
     </p>
     <div class="flex flex-row justify-between items-center">
       <div class="flex flex-row justify-items-center gap-2 p-2">
@@ -57,7 +57,23 @@ async function down() {}
         <button class="button text-blue-800" @click="down()"> {{ downvotes }} </button>
       </div>
 
-      <p class="justify-self-end p-1 content-center"> {{data}}</p>
+      <button class="button">Replies</button>
+
+      <p class="p-1 content-center"> {{data}}</p>
+    </div>
+    <div>
+      <hr><!-- TODO Maybe a different component?-->
+      <div class="flex flex-row gap-2">
+        <div class="font-light">Kelly ({{ data.toDateString() }}) </div>
+        <p>molto interessante! <br> multi <br> linea </p>
+      </div>
+
+      <hr><!-- TODO Maybe a different component?-->
+      <div class="flex flex-row gap-2">
+        <div class="font-light">Ivan ({{ data.toDateString() }})</div>
+        <p>AAAAAAAAAAAAAAAA</p>
+      </div>
+
     </div>
   </div>
 

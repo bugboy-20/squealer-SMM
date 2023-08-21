@@ -17,8 +17,10 @@ let actM = 654
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-between p-4 gap-4">
-    <img :src="image" alt="" class="rounded-md">
+  <div class="flex flex-col justify-between p-4 gap-4">
+    <div class="flex flex-col inset-0 aspect-square  justify-center">
+      <img :src="image" alt="" class="rounded-md scale-100">
+    </div>
     <div class="border rounded p-4 text-xl">
       {{ username }}
       <hr>
