@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {ref} from 'vue';
+
+let visible = ref(true)
 let viewsState = [
   {
     name: "kabobo",
@@ -26,10 +29,10 @@ function icon(status : string) {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to="body" v-if="visible">
   <div class="absolute left-[40vw] top-[40vh] self-center z-50 rounded border-2 border-slate-50 shadow-md bg-slate-50">
     <div class="flex flex-col ">
-      <button class="self-end hover:bg-slate-200 px-1 rounded">X</button>
+      <button class="self-end hover:bg-slate-200 px-1 rounded" @click="visible = !visible">X</button>
       <template v-for="vs in viewsState">
           <div class="flex flex-row justify-between gap-2 ">
             <div>{{ vs.name }}</div> <div>{{ icon(vs.status) }}</div>

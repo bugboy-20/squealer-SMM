@@ -1,18 +1,36 @@
 <script setup lang="ts">
+import info from '../info.json'
+import {userReadSchema, userRead_t} from '../schema/userValidators';
+
+
 //TODO aprime una finestra per modificare immagine e dati dell'utente
-let image = "https://picsum.photos/200"
-let username = "UU"
-let firstname = "Salvatore"
-let lastname = "Lervini"
 
-let maxD = 500
-let actD = 234
+const p = defineProps<{ vip : string}>()
 
-let maxW = 600
-let actW = 335
+console.log(`${info.API_address}/users/${p.vip}`)
 
-let maxM = 1000
-let actM = 654
+let user : userRead_t = await fetch(`${info.API_address}/users/${p.vip}`)
+  .then(r => r.json())
+  .then(u => { try {
+    let userValidated : userRead_t = userReadSchema.parse(u)
+    return userValidated
+  } catch(e) {
+    console.log(e)
+  }})
+
+let image = user.propic
+let username = user.username
+let firstname = user.firstname
+let lastname = user.lastname
+
+let maxD = user.quota.maxD
+let actD = user.quota.actualD
+
+let maxW = user.quota.maxW
+let actW = user.quota.actualW
+
+let maxM = user.quota.maxM
+let actM = user.quota.actualM
 
 </script>
 

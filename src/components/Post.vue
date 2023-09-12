@@ -6,23 +6,34 @@ import { squealSchema_t, squealSchema } from '../schema/squealForm';
 defineProps<{ squeal: squealSchema_t}>()
 */
 //import SquealViewes from './SquealViewes.vue'
+import {ref} from 'vue';
 import info from '../info.json'
-let receiver = ["koko","literal"].join(', ')
-let body = "kjak cicci sadsa"
-let upvotes = 5
-let downvotes = 20
-let views = 100
-let data : Date = new Date(Date.now()-534)
+import {squealRead_t} from '../schema/squealValidators';
+
+
+let p = defineProps<{ squeal : squealRead_t}>()
+
+
+let id = p.squeal._id
+let receiver = p.squeal.receivers?.join(', ')
+let bodyType = p.squeal.body?.type
+let body = p.squeal.body?.content
+let upvotes = p.squeal.positive_reaction
+let downvotes = p.squeal.negative_reaction
+let views = p.squeal.impressions
+let data = p.squeal.datetime
 let viewsMoladOpened = false
+let viewComments = ref(false)
 
 async function up() {
   const form = {
     op: "upvote"
   }
-  const resp = await fetch(`${info.API_address}/squeals/64d399d4e54b1b42c99369ed`, {
+  const resp = await fetch(`${info.API_address}/squeals/${id}`, {
     method: "PATCH",
     body: JSON.stringify(form)
   })
+    //.then(r => r.text())
   
 
   console.log(JSON.stringify(resp))
@@ -48,7 +59,8 @@ async function down() {}
     </p>
     <hr>
     <p class="p-2">
-      {{ body }} <!-- maybe a MessageBody component?-->
+      <template v-if="bodyType == 'text'"> {{ body }} </template> <!-- maybe a MessageBody component?-->
+      <template v-else-if="bodyType == 'media'"> <img :src="body" alt=""> </template>
     </p>
     <div class="flex flex-row justify-between items-center">
       <div class="flex flex-row justify-items-center gap-2 p-2">
@@ -57,11 +69,11 @@ async function down() {}
         <button class="button text-blue-800" @click="down()"> {{ downvotes }} </button>
       </div>
 
-      <button class="button">Replies</button>
+      <button class="button" @click="viewComments = !viewComments" >Replies</button>
 
       <p class="p-1 content-center"> {{data}}</p>
     </div>
-    <div>
+    <div v-if="viewComments">
       <hr><!-- TODO Maybe a different component?-->
       <div class="flex flex-row gap-2">
         <div class="font-light">Kelly ({{ data.toDateString() }}) </div>

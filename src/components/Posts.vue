@@ -1,15 +1,53 @@
 
 <script setup lang="ts">
+import info from './../info.json'
 import Post from './Post.vue';
 import SquealViewes from './SquealViewes.vue';
 
-defineProps<{ vip: string }>()
-/*
-const count = ref(0)
-let posts = await fetch(`${info.API_address}/squeals`)
+import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
+import {computed, reactive, ref} from 'vue';
 
-console.log(await posts.json())
-*/
+
+
+let sortOptions = [
+  { value: "recent", text: "per data ↓", sortmethod: (a : squealRead_t, b : squealRead_t) => b.datetime.getTime() - a.datetime.getDate() },
+  { value: "antirecent", text: "per data ↑", sortmethod: (a : squealRead_t, b : squealRead_t) => a.datetime.getTime() - b.datetime.getDate() },
+  { value: "popular", text: "Popolarità", sortmethod: (a : squealRead_t, b : squealRead_t) => b.positive_reaction - a.positive_reaction },
+  { value: "controversy", text: "Controverso", sortmethod: (a : squealRead_t, b : squealRead_t) => b.negative_reaction - a.negative_reaction },
+  { value: "mediocre", text: "Mediocre", sortmethod: (a : squealRead_t, b : squealRead_t) => (a.positive_reaction + a.negative_reaction) - (b.positive_reaction + b.negative_reaction) }, //TODO aggiungere / visuals
+]
+
+let sortmethodSelected = ref("recent")
+
+let p = defineProps<{ vip: string }>()
+
+let posts = reactive<squealRead_t[]>([])
+
+posts = await fetch(`${info.API_address}/squeals?author=${p.vip}`)
+  .then(r => r.json())
+  .then((pp : Object[]) => 
+    pp.map(p => {
+      try {
+        return squealReadSchema.parse(p)
+      } catch (e) {
+        console.log(e)
+        return null;
+      }
+    }).filter(e => e).reverse()
+  )//.then( posts => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod))
+  .catch(e => {
+    console.error(e)
+    return []
+  })
+
+//posts = computed(() => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod)) // non dovrei usare value
+let sortedPosts = computed(() => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod)) // non dovrei usare value
+
+
+console.log(`${info.API_address}/squeals?author=${p.vip}`)
+
+console.log(sortedPosts)
+
 /*TODO 
  * filtri
  * gestire overflow
@@ -21,28 +59,11 @@ console.log(await posts.json())
 <template>
 <!--Squeals di {{ vip }}:-->
   <div class="p-2 ">
-    <select name="filtri" id="" class="py-1 px-2 rounded bg-slate-50 border border-slate-200">
-      <option value="recent">per data ↑</option>
-      <option value="antirecent">per data ↓</option>
-      <option value="popular">Popolarità</option>
-      <option value="controversy">Controverso</option>
-      <option value="mediocre">Mediocre</option>
+    <select name="filtri" id="" v-model="sortmethodSelected" class="py-1 px-2 rounded bg-slate-50 border border-slate-200">
+      <option v-for="option in sortOptions" :key="option.value" :value="option.value"> {{ option.text }} </option>
     </select>
     <div class="p-2 space-y-2 overflow-auto h-screen pb-40 ">
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
-      <Post/>
+      <Post :squeal="post" v-for="post in sortedPosts" :key="post._id" />
     </div>
   </div>
   <SquealViewes/>
