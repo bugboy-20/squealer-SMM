@@ -21,7 +21,7 @@ let body = p.squeal.body?.content
 let upvotes = p.squeal.positive_reaction
 let downvotes = p.squeal.negative_reaction
 let views = p.squeal.impressions
-let data = p.squeal.datetime
+let data = `${p.squeal.datetime.getHours()}:${p.squeal.datetime.getMinutes()} ${p.squeal.datetime.getDay()}/${p.squeal.datetime.getMonth()}/${p.squeal.datetime.getFullYear()}`;
 let viewsMoladOpened = false
 let viewComments = ref(false)
 
@@ -71,13 +71,13 @@ async function down() {}
     <div v-if="viewComments">
       <hr><!-- TODO Maybe a different component?-->
       <div class="flex flex-row gap-2">
-        <div class="font-light">Kelly ({{ data.toDateString() }}) </div>
+        <div class="font-light">Kelly ({{ data }}) </div>
         <p>molto interessante! <br> multi <br> linea </p>
       </div>
 
       <hr><!-- TODO Maybe a different component?-->
       <div class="flex flex-row gap-2">
-        <div class="font-light">Ivan ({{ data.toDateString() }})</div>
+        <div class="font-light">Ivan ({{ data }})</div>
         <p>AAAAAAAAAAAAAAAA</p>
       </div>
 

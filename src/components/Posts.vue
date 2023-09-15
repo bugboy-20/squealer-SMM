@@ -11,12 +11,13 @@ import { axios } from '../lib/axios';
 
 
 let sortOptions = [
-  { value: "recent", text: "per data ↓", sortmethod: (a : squealRead_t, b : squealRead_t) => b.datetime.getTime() - a.datetime.getDate() },
-  { value: "antirecent", text: "per data ↑", sortmethod: (a : squealRead_t, b : squealRead_t) => a.datetime.getTime() - b.datetime.getDate() },
+  { value: "recent", text: "per data ↓", sortmethod: (a : squealRead_t, b : squealRead_t) => b.datetime.getTime() - a.datetime.getTime() },
+  { value: "antirecent", text: "per data ↑", sortmethod: (a : squealRead_t, b : squealRead_t) => a.datetime.getTime() - b.datetime.getTime() },
   { value: "popular", text: "Popolarità", sortmethod: (a : squealRead_t, b : squealRead_t) => b.positive_reaction - a.positive_reaction },
   { value: "controversy", text: "Controverso", sortmethod: (a : squealRead_t, b : squealRead_t) => b.negative_reaction - a.negative_reaction },
   { value: "mediocre", text: "Mediocre", sortmethod: (a : squealRead_t, b : squealRead_t) => (a.positive_reaction + a.negative_reaction) - (b.positive_reaction + b.negative_reaction) }, //TODO aggiungere / visuals
 ]
+
 
 let sortmethodSelected = ref("recent")
 
