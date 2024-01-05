@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import info from '../info.json'
+import { axios } from '../lib/axios';
 import {userReadSchema, userRead_t} from '../schema/userValidators';
 
 
@@ -9,14 +10,15 @@ const p = defineProps<{ vip : string}>()
 
 console.log(`${info.API_address}/users/${p.vip}`)
 
-let user : userRead_t = await fetch(`${info.API_address}/users/${p.vip}`)
-  .then(r => r.json())
+let user : userRead_t = await axios.get<unknown>(`/users/${p.vip}`)
+  .then(r => r.data)
   .then(u => { try {
     let userValidated : userRead_t = userReadSchema.parse(u)
     return userValidated
   } catch(e) {
     console.log(e)
   }})
+// TODO: l'utente potrebbe essere undefined
 
 let image = user.propic
 let username = user.username

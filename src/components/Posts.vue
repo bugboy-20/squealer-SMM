@@ -6,6 +6,7 @@ import SquealViewes from './SquealViewes.vue';
 
 import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
 import {computed, reactive, ref} from 'vue';
+import { axios } from '../lib/axios';
 
 
 
@@ -23,9 +24,9 @@ let p = defineProps<{ vip: string }>()
 
 let posts = reactive<squealRead_t[]>([])
 
-posts = await fetch(`${info.API_address}/squeals?author=${p.vip}`)
-  .then(r => r.json())
-  .then((pp : Object[]) => 
+posts = await axios.get<unknown[]>(`/squeals?author=${p.vip}`)
+  .then(r => r.data)
+  .then((pp) =>
     pp.map(p => {
       try {
         return squealReadSchema.parse(p)
@@ -33,7 +34,7 @@ posts = await fetch(`${info.API_address}/squeals?author=${p.vip}`)
         console.log(e)
         return null;
       }
-    }).filter(e => e).reverse()
+    }).filter((e): e is squealRead_t => e !== null).reverse()
   )//.then( posts => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod))
   .catch(e => {
     console.error(e)
