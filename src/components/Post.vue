@@ -7,8 +7,8 @@ defineProps<{ squeal: squealSchema_t}>()
 */
 //import SquealViewes from './SquealViewes.vue'
 import {ref} from 'vue';
-import info from '../info.json'
 import {squealRead_t} from '../schema/squealValidators';
+import { axios } from '../lib/axios';
 
 
 let p = defineProps<{ squeal : squealRead_t}>()
@@ -29,14 +29,9 @@ async function up() {
   const form = {
     op: "upvote"
   }
-  const resp = await fetch(`${info.API_address}/squeals/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(form)
-  })
-    //.then(r => r.text())
-  
+  const resp = await axios.patch<unknown>(`/squeals/${id}`, form).then(r => r.data)
 
-  console.log(JSON.stringify(resp))
+  console.log(resp)
 
 }
 
