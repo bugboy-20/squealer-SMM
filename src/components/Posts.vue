@@ -3,6 +3,7 @@
 import info from './../info.json'
 import Post from './Post.vue';
 import SquealViewes from './SquealViewes.vue';
+import CommentStash from './CommentStash.vue';
 
 import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
 import {computed, reactive, ref} from 'vue';

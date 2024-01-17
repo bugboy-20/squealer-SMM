@@ -10,6 +10,7 @@ import {ref} from 'vue';
 import {squealRead_t} from '../schema/squealValidators';
 import { axios } from '../lib/axios';
 
+import CommentStash from './CommentStash.vue';
 
 let p = defineProps<{ squeal : squealRead_t}>()
 
@@ -23,7 +24,8 @@ let downvotes = p.squeal.negative_reaction
 let views = p.squeal.impressions
 let data = `${p.squeal.datetime.getHours()}:${p.squeal.datetime.getMinutes()} ${p.squeal.datetime.getDay()}/${p.squeal.datetime.getMonth()}/${p.squeal.datetime.getFullYear()}`;
 let viewsMoladOpened = false
-let viewComments = ref(false)
+let showComments = ref(false)
+let comments = p.squeal.comments
 
 async function up() {
   const form = {
@@ -64,24 +66,11 @@ async function down() {}
         <button class="button text-blue-800" @click="down()"> {{ downvotes }} </button>
       </div>
 
-      <button class="button" @click="viewComments = !viewComments" >Replies</button>
+      <button class="button" @click="showComments = !showComments" >Replies</button>
 
       <p class="p-1 content-center"> {{data}}</p>
     </div>
-    <div v-if="viewComments">
-      <hr><!-- TODO Maybe a different component?-->
-      <div class="flex flex-row gap-2">
-        <div class="font-light">Kelly ({{ data }}) </div>
-        <p>molto interessante! <br> multi <br> linea </p>
-      </div>
-
-      <hr><!-- TODO Maybe a different component?-->
-      <div class="flex flex-row gap-2">
-        <div class="font-light">Ivan ({{ data }})</div>
-        <p>AAAAAAAAAAAAAAAA</p>
-      </div>
-
-    </div>
+    <CommentStash v-if="showComments" comments="comments"/>
   </div>
 
   <!--Teleport to="body">
