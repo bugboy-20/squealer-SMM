@@ -14,7 +14,6 @@ let squealType : Ref<'txt' | 'media' | 'geo'> = ref('txt')
   <input class="hidden" type="radio" name="squealType" v-model="squealType" value="media" id="media">
   <input class="hidden" type="radio" name="squealType" v-model="squealType" value="geo" id="geo">
   <div class="border-2 border-blue-200 rounded m-2">
-    <input placeholder="destinatari..." v-model="destinatari" />
     <NewPostTxt v-show="squealType == 'txt'" />
     <NewPostImg v-show="squealType == 'media'" />
     <NewPostGeo v-show="squealType == 'geo'" />
