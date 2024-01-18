@@ -5,9 +5,11 @@ import { squealWrite_t , squealWriteSchema} from '../schema/squealValidators';
 let content = ref("")
 let recipients = ref("")
 
+let d = defineProps<{vip: string}>()
+
 async function send() {
   const schema = {
-    author:"@angolo180", // TODO va generalizzato
+    author:d.vip,
     body: {
       type:"text",
       content:content.value,
