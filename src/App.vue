@@ -18,7 +18,7 @@ let vip = "@angolo180"
       <Suspense> <Posts :vip="vip"/> </Suspense>
     </div>
     <div class="basis-1/4 h-screen overflow-hidden">
-      <NewPost/>
+      <NewPost :vip="vip"/>
     </div>
   </div>
 
