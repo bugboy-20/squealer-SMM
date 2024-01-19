@@ -19,7 +19,7 @@ let d = defineProps<{vip: string}>()
     <NewPostTxt :vip="d.vip" v-show="squealType == 'txt'" />
     <NewPostImg :vip="d.vip" v-show="squealType == 'media'" />
     <NewPostGeo :vip="d.vip" v-show="squealType == 'geo'" />
-    <div class="p-2">
+    <div class="px-2 py-4">
       <label class="rounded p-2 bg-sky-500 text-white m-1 hover:bg-sky-600" :class="{ 'bg-sky-700': squealType == 'txt'}" for="txt">Scrivi</label>
       <label class="rounded p-2 bg-sky-500 text-white m-1 hover:bg-sky-600" :class="{ 'bg-sky-700': squealType == 'media' }" for="media">Immagine</label>
       <label class="rounded p-2 bg-sky-500 text-white m-1 hover:bg-sky-600" :class="{ 'bg-sky-700': squealType == 'geo' }" for="geo">Posizione</label>
