@@ -2,7 +2,7 @@
 import { onMounted, ref } from "vue";
 import L, {DragEndEvent} from "leaflet";
 import 'leaflet/dist/leaflet.css';
-import { geoJSON } from "leaflet";
+import { axios } from "../lib/axios";
 
 const lat = ref(0);
 const lng = ref(0);
@@ -13,7 +13,7 @@ let d = defineProps<{vip: string}>()
 let recipients = ref("")
 
 onMounted(() => {
-  map.value = L.map(mapContainer.value).setView([51.505, -0.09], 13);
+  map.value = L.map(mapContainer.value).setView([lat.value, lng.value], 13);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution:
@@ -79,8 +79,13 @@ async function send() {
 
 <template>
   <div class="m-2 space-2">
+    
+    <label for="recipients" class="block text-gray-700 text-sm font-medium">Recipients:</label>
+      <input v-model="recipients" type="text" id="recipients" class="my-1 p-2 w-full border rounded-md" placeholder="Enter recipients" required />
+
+
     <div ref="mapContainer" class="aspect-square w-max" style="width: 400px; height: 400px"></div>
-    <button @click="getLocation()" class="mt-4 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">Set current location</button>
+    <button @click="getLocation()" class="mt-4 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300 m-2">Set current location</button>
     <button @click="send()" class="mt-4 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition duration-300">Send</button>
   </div>
 </template>
