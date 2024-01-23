@@ -6,7 +6,7 @@ import SquealViewes from './SquealViewes.vue';
 import CommentStash from './CommentStash.vue';
 
 import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
-import {computed, reactive, ref} from 'vue';
+import {computed, reactive, ref, watch} from 'vue';
 import { axios } from '../lib/axios';
 
 
@@ -25,26 +25,30 @@ let sortmethodSelected = ref("recent")
 let p = defineProps<{ vip: string }>()
 
 let posts = reactive<squealRead_t[]>([])
+let sortedPosts = ref<squealRead_t[]>([])
 
-posts = await axios.get<unknown[]>(`/squeals?author=${p.vip}`)
-  .then(r => r.data)
-  .then((pp) =>
-    pp.map(p => {
-      try {
-        return squealReadSchema.parse(p)
-      } catch (e) {
-        console.log(e)
-        return null;
-      }
-    }).filter((e): e is squealRead_t => e !== null).reverse()
-  )//.then( posts => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod))
-  .catch(e => {
-    console.error(e)
-    return []
-  })
+watch(p , async () => {
+  posts = await axios.get<unknown[]>(`/squeals?author=${p.vip}`)
+    .then(r => r.data)
+    .then((pp) =>
+      pp.map(p => {
+        try {
+          return squealReadSchema.parse(p)
+        } catch (e) {
+          console.log(e)
+          return null;
+        }
+      }).filter((e): e is squealRead_t => e !== null).reverse()
+    )//.then( posts => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod))
+    .catch(e => {
+      console.error(e)
+      return []
+    })
+  sortedPosts.value = posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod)
+})
 
 //posts = computed(() => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod)) // non dovrei usare value
-let sortedPosts = computed(() => posts.sort(sortOptions.find(e => e.value == sortmethodSelected.value)?.sortmethod)) // non dovrei usare value
+
 
 
 console.log(`${info.API_address}/squeals?author=${p.vip}`)
@@ -66,7 +70,7 @@ console.log(sortedPosts)
       <option v-for="option in sortOptions" :key="option.value" :value="option.value"> {{ option.text }} </option>
     </select>
     <div class="p-2 space-y-2 overflow-auto h-screen pb-40 ">
-      <Post :squeal="post" v-for="post in sortedPosts" :key="post._id" />
+      <Post :squeal="post" v-for="post in sortedPosts" :key="post.id" />
     </div>
   </div>
   <SquealViewes/>

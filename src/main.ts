@@ -4,10 +4,10 @@ import App from './App.vue'
 import { axios } from "./lib/axios"
 
 async function loginAndMakeApp() {
-  const data = {
-    "username":"@angolo180",
-    "password":"Angolo.180"
-}
+  const data =  {
+    "username":"@gigasmm",
+    "password":"Giga.smm1"
+} 
 
   console.log(await axios.post<string>('/token', data))
 
