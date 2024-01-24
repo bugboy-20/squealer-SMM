@@ -10,11 +10,12 @@ import {ref} from 'vue';
 import {squealRead_t} from '../schema/squealValidators';
 import { axios } from '../lib/axios';
 
+import CommentStash from './CommentStash.vue';
 
 let p = defineProps<{ squeal : squealRead_t}>()
 
 
-let id = p.squeal._id
+let id = p.squeal.id
 let receiver = p.squeal.receivers?.join(', ')
 let bodyType = p.squeal.body?.type
 let body = p.squeal.body?.content
@@ -23,7 +24,8 @@ let downvotes = p.squeal.negative_reaction
 let views = p.squeal.impressions
 let data = `${p.squeal.datetime.getHours()}:${p.squeal.datetime.getMinutes()} ${p.squeal.datetime.getDay()}/${p.squeal.datetime.getMonth()}/${p.squeal.datetime.getFullYear()}`;
 let viewsMoladOpened = false
-let viewComments = ref(false)
+let showComments = ref(false)
+let comments = p.squeal.comments
 
 async function up() {
   const form = {
@@ -43,15 +45,15 @@ async function views_reations() { //TODO. `e` serve solo a far complilare
 
 async function down() {}
 
-//TODO visualizzare le risposte
 </script>
 
 <template>
 
   <div class="rounded border-2 border-blue-500 shadow">
-    <p class="px-1 font-light">
-      {{ receiver }}   
-    </p>
+    <div class="flex flex-row justify-between">
+      <p class="px-1 font-light">{{ receiver }}</p>
+      <p class="px-1 font-light text-right">{{id}}</p>
+    </div>
     <hr>
     <p class="p-2">
       <template v-if="bodyType == 'text'"> {{ body }} </template> <!-- maybe a MessageBody component?-->
@@ -64,24 +66,11 @@ async function down() {}
         <button class="button text-blue-800" @click="down()"> {{ downvotes }} </button>
       </div>
 
-      <button class="button" @click="viewComments = !viewComments" >Replies</button>
+      <button class="button" @click="showComments = !showComments" >Replies</button>
 
       <p class="p-1 content-center"> {{data}}</p>
     </div>
-    <div v-if="viewComments">
-      <hr><!-- TODO Maybe a different component?-->
-      <div class="flex flex-row gap-2">
-        <div class="font-light">Kelly ({{ data }}) </div>
-        <p>molto interessante! <br> multi <br> linea </p>
-      </div>
-
-      <hr><!-- TODO Maybe a different component?-->
-      <div class="flex flex-row gap-2">
-        <div class="font-light">Ivan ({{ data }})</div>
-        <p>AAAAAAAAAAAAAAAA</p>
-      </div>
-
-    </div>
+    <CommentStash v-if="showComments" :comments="comments"/>
   </div>
 
   <!--Teleport to="body">
