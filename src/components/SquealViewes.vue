@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 
-let visible = ref(true)
-let viewsState = [
-  {
-    name: "kabobo",
-    status: "view"
-  },
-  {
-    name: "koko",
-    status: "upvote"
-  },
-  {
-    name: "susan",
-    status: "downvote"
-  }]
+let visible = ref(false)
+let viewsState = ref<{name: string, status: "view" | "upvote" | "downvote"}[]>([])
+
+
+defineExpose({visible,viewsState})
 
 function icon(status : string) {
   switch(status) {
