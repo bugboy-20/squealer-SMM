@@ -15,7 +15,7 @@ import CommentStash from './CommentStash.vue';
 let p = defineProps<{ squeal : squealRead_t}>()
 
 
-let id = p.squeal._id
+let id = p.squeal.id
 let receiver = p.squeal.receivers?.join(', ')
 let bodyType = p.squeal.body?.type
 let body = p.squeal.body?.content
@@ -45,15 +45,15 @@ async function views_reations() { //TODO. `e` serve solo a far complilare
 
 async function down() {}
 
-//TODO visualizzare le risposte
 </script>
 
 <template>
 
   <div class="rounded border-2 border-blue-500 shadow">
-    <p class="px-1 font-light">
-      {{ receiver }}   
-    </p>
+    <div class="flex flex-row justify-between">
+      <p class="px-1 font-light">{{ receiver }}</p>
+      <p class="px-1 font-light text-right">{{id}}</p>
+    </div>
     <hr>
     <p class="p-2">
       <template v-if="bodyType == 'text'"> {{ body }} </template> <!-- maybe a MessageBody component?-->
@@ -70,7 +70,7 @@ async function down() {}
 
       <p class="p-1 content-center"> {{data}}</p>
     </div>
-    <CommentStash v-if="showComments" comments="comments"/>
+    <CommentStash v-if="showComments" :comments="comments"/>
   </div>
 
   <!--Teleport to="body">
