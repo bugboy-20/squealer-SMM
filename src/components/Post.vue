@@ -23,9 +23,10 @@ let upvotes = p.squeal.positive_reaction
 let downvotes = p.squeal.negative_reaction
 let views = p.squeal.impressions
 let data = `${p.squeal.datetime.getHours()}:${p.squeal.datetime.getMinutes()} ${p.squeal.datetime.getDay()}/${p.squeal.datetime.getMonth()}/${p.squeal.datetime.getFullYear()}`;
-let viewsMoladOpened = false
 let showComments = ref(false)
 let comments = p.squeal.comments
+
+const emit = defineEmits<{showInteractions:[ r :{positives: string[],negatives: string[],impressions:string[]}]}>()
 
 async function up() {
   const form = {
@@ -37,10 +38,18 @@ async function up() {
 
 }
 
-async function views_reations() { //TODO. `e` serve solo a far complilare
-  let e = viewsMoladOpened
-  viewsMoladOpened = true
-  return e
+async function views_reations() { 
+  const res = await axios.get(`/squeals/${id}/interactions`).then(r => {
+    if(r.status == 200)
+      return (r.data as {positives: string[],negatives: string[],impressions:string[]})
+    return {positives:[],negatives:[],impressions:[]}
+  }).then(l => {
+    return {
+      ...l,
+      impressions: l.impressions.filter(e => !(  l.positives.includes(e) || l.negatives.includes(e))) // filtering users that appears in positives or negatives
+    }
+  })
+  emit("showInteractions",res)
 }
 
 async function down() {}

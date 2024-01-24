@@ -3,12 +3,13 @@
 import info from './../info.json'
 import Post from './Post.vue';
 import SquealViewes from './SquealViewes.vue';
-import CommentStash from './CommentStash.vue';
 
 import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
-import {computed, reactive, ref, watch} from 'vue';
+import {computed, onMounted, reactive, ref, watch} from 'vue';
 import { axios } from '../lib/axios';
 import { isPopular, isRiskUnpopular, isRiskControversial } from '../lib/popularity.ts';
+
+const squViews = ref()
 
 let sortOptions = [
   { value: "recent", text: "per data ↓", sortmethod: (a : squealRead_t, b : squealRead_t) => b.datetime.getTime() - a.datetime.getTime() },
@@ -70,6 +71,18 @@ console.log(`${info.API_address}/squeals?author=${p.vip}`)
 
 console.log(sortedPosts)
 
+const showSqViewer = (e : {positives: string[],negatives: string[],impressions:string[]}) => {
+
+  let modeFormat = e.impressions.map(i => {return {name: i , status: "view"}}).concat(e.positives.map(p => {return {name: p , status: "upvote"}})).concat(e.negatives.map(n => {return {name: n , status: "downvote"}})).sort(() => Math.random() - 0.5)
+  console.log(e)
+  if(squViews.value?.viewsState) {
+    squViews.value.viewsState = modeFormat
+    squViews.value.visible = true
+    console.log('gooorrof')
+  }
+}
+
+
 </script>
 
 <template>
@@ -82,9 +95,9 @@ console.log(sortedPosts)
       <option v-for="filter in filterOptions" :key="filter.text" :value="filter"> {{ filter.text }} </option>
     </select>
     <div class="p-2 space-y-2 overflow-auto h-screen pb-40 ">
-      <Post :squeal="post" v-for="post in sortedPosts" :key="post.id" />
+      <Post :squeal="post" v-for="post in sortedPosts" :key="post.id" @show-interactions="showSqViewer"/>
     </div>
   </div>
-  <SquealViewes/>
+  <SquealViewes ref="squViews"/>
 
 </template>
