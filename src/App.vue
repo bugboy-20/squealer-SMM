@@ -7,8 +7,7 @@ import VipSelector from './components/VipSelector.vue';
 
 let vip = ref<string>("")
 
-const changeVip = (v) => {
-  console.log(`c ${v}`)
+const changeVip = (v : string) => {
   vip.value = v;
 }
 </script>

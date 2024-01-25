@@ -54,6 +54,11 @@ async function views_reations() {
 
 async function down() {}
 
+const beSureIsString = (body : any) => { // avoiding errors
+  if (typeof body != 'string')
+    throw Error("body dev'essere una stringa")
+  return (body as string)
+}
 </script>
 
 <template>
@@ -66,7 +71,7 @@ async function down() {}
     <hr>
     <p class="p-2">
       <template v-if="bodyType == 'text'"> {{ body }} </template> <!-- maybe a MessageBody component?-->
-      <template v-else-if="bodyType == 'media'"> <img :src="body" alt=""> </template>
+      <template v-else-if="bodyType == 'media'"> <img :src="beSureIsString(body)" alt=""> </template>
     </p>
     <div class="flex flex-row justify-between items-center">
       <div class="flex flex-row justify-items-center gap-2 p-2">

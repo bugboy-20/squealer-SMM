@@ -8,7 +8,7 @@ let p = defineProps<{comment: commentRead_t, subComment: boolean}>()
 let bodyType = p.comment.body?.type
 let body = p.comment.body?.content
 let author = p.comment.author
-let id = p.comment.id
+//let id = p.comment.id
 let data = `${p.comment.datetime.getHours()}:${p.comment.datetime.getMinutes()} ${p.comment.datetime.getDay()}/${p.comment.datetime.getMonth()}/${p.comment.datetime.getFullYear()}`;
 let sub_comments = p.comment.comments
 
@@ -18,6 +18,11 @@ const glowComment = () => {
   setTimeout(() => { glowing.value = false},500)
 }
 
+const beSureIsString = (body : any) => { // avoiding errors
+  if (typeof body != 'string')
+    throw Error("body dev'essere una stringa")
+  return (body as string)
+}
 </script>
 
 <template>
@@ -26,7 +31,7 @@ const glowComment = () => {
       <button v-if="p.subComment" @click="$emit('selectFather')" class="bg-slate-200 rounded ml-2 px-1">↑</button>
       <div class="font-light" > {{ author }} ({{data}})</div>
       <p v-if="bodyType == 'text'">{{body}}</p>
-      <p v-else-if="bodyType == 'media'"><img src="{{body}}"></p>
+      <p v-else-if="bodyType == 'media'"><img :src="beSureIsString(body)"></p>
     </div>
     <Comment v-for="comment in sub_comments" :comment="comment" @select-father="glowComment" :sub-comment="true" />
 </template>

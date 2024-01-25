@@ -3,10 +3,7 @@ import { Ref , ref } from 'vue';
 import NewPostTxt from './NewPostTxt.vue';
 import NewPostImg from './NewPostImg.vue';
 import NewPostGeo from './NewPostGeo.vue';
-import {string} from 'zod';
 
-//TODO finire
-let destinatari = ""
 let squealType : Ref<'txt' | 'media' | 'geo'> = ref('txt')
 let d = defineProps<{vip: string}>()
 </script>

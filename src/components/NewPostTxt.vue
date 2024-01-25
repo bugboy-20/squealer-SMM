@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { axios } from '../lib/axios';
-import { squealWrite_t , squealWriteSchema} from '../schema/squealValidators';
 let content = ref("")
 let recipients = ref("")
 
@@ -29,15 +28,6 @@ function resetForm() {
   content.value = "";
 }
 
-/*
-<template>
-  <div>
-    <textarea name="f" id="" cols="30" rows="10" class="" placeholder="Nuovo post..."></textarea>
-    <hr>
-    <button class="p-4">invia</button>
-  </div>
-</template>
-*/
 </script>
 <template>
   <div>
