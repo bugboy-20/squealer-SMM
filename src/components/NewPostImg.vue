@@ -35,6 +35,7 @@ const resetForm = () => {
   data.value.imageUrl = '';
 };
 
+/*
 const handleImageUpload = async (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -52,7 +53,7 @@ const handleImageUpload = async (event) => {
       console.log('Image uploaded:', file);
       console.log('Image URL:', data.value.imageUrl);})
   }
-};
+};*/
 
 const toggleImageInput = () => {
   // Toggle between file input and URL input

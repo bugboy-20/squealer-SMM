@@ -5,7 +5,7 @@ import Post from './Post.vue';
 import SquealViewes from './SquealViewes.vue';
 
 import { squealRead_t, squealReadSchema } from './../schema/squealValidators.ts'
-import {computed, onMounted, reactive, ref, watch} from 'vue';
+import {computed, reactive, ref, watch} from 'vue';
 import { axios } from '../lib/axios';
 import { isPopular, isRiskUnpopular, isRiskControversial } from '../lib/popularity.ts';
 
